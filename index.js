@@ -90,13 +90,13 @@ client.on('message', function(message) {
                         });
                     });
                 } else {
-                    youtube.getPlayListSongs("PL9ocJp-KMexIqyjkA1HNzFKgD7wXSeyrR", 50, function(arr) {
+                    youtube.getPlayListSongs(message.match(/list=(.*)/)[message.match(/list=(.*)/).length - 1], 50, function(arr) {
                         arr.forEach(function(e) {
                             add_to_queue(e.snippet.resourceId.videoId);
                             queue.push(e.snippet.title);
                         });
                         playMusic(queue[0], message, false);
-                        youtube.getPlayListMetaData("PL9ocJp-KMexIqyjkA1HNzFKgD7wXSeyrR", 50, function(data) {
+                        youtube.getPlayListMetaData(message.match(/list=(.*)/)[message.match(/list=(.*)/).length - 1], 50, function(data) {
                             message.reply(" now playing playlist: **" + data.snippet.title + "**");
                         });
                     });
@@ -115,13 +115,13 @@ client.on('message', function(message) {
                         });
                     });
                 } else {
-                    youtube.getPlayListSongs("PL9ocJp-KMexIqyjkA1HNzFKgD7wXSeyrR", 50, function(arr) {
+                    youtube.getPlayListSongs(message.match(/list=(.*)/)[message.match(/list=(.*)/).length - 1], 50, function(arr) {
                         arr.forEach(function(e) {
                             add_to_queue(e.snippet.resourceId.videoId);
                             queueNames.push(e.snippet.title);
                         });
                         playMusic(queue[0], message, false);
-                        youtube.getPlayListMetaData("PL9ocJp-KMexIqyjkA1HNzFKgD7wXSeyrR", 50, function(data) {
+                        youtube.getPlayListMetaData(message.match(/list=(.*)/)[message.match(/list=(.*)/).length - 1], 50, function(data) {
                             message.reply(" now playing playlist: **" + data.snippet.title + "**");
                         });
                     });
