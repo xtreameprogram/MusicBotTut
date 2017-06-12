@@ -1,0 +1,23 @@
+{
+  "name": "discordmusicbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.1.0",
+    "ffmpeg-binaries": "^3.2.2-3",
+    "fs": "0.0.1-security",
+    "get-youtube-id": "^1.0.0",
+    "npm": "^3.10.10",
+    "opusscript": "0.0.3",
+    "package.json": "^2.0.1",
+    "request": "^2.81.0",
+    "youtube-info": "^1.1.1",
+    "ytdl-core": "^0.14.2"
+  }
+}
