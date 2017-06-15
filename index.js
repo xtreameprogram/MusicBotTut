@@ -80,7 +80,7 @@ client.on('message', function(message) {
     else if (mess.startsWith(prefix + 'play') && message.channel.id === "319301550902214657") {
         if (member.voiceChannel || voiceChannel != null) {
             if (queue.length > 0 || isPlaying) {
-                if (!message.toLowerCase().indexOf("list=") > -1) {
+                if (args.toLowerCase().indexOf("list=") === -1) {
                     youtube.getID(args, function(id) {
                         add_to_queue(id);
                         fetchVideoInfo(id, function(err, videoInfo) {
@@ -90,21 +90,20 @@ client.on('message', function(message) {
                         });
                     });
                 } else {
-                    youtube.getPlayListSongs(message.match(/list=(.*)/)[message.match(/list=(.*)/).length - 1], 50, function(arr) {
+                    youtube.getPlayListSongs(args.match(/list=(.*)/)[args.match(/list=(.*)/).length - 1], 50, function(arr) {
                         arr.forEach(function(e) {
                             add_to_queue(e.snippet.resourceId.videoId);
-                            queue.push(e.snippet.title);
+                            queueName.push(e.snippet.title);
                         });
-                        playMusic(queue[0], message, false);
-                        youtube.getPlayListMetaData(message.match(/list=(.*)/)[message.match(/list=(.*)/).length - 1], 50, function(data) {
-                            message.reply(" now playing playlist: **" + data.snippet.title + "**");
+                        youtube.getPlayListMetaData(args.match(/list=(.*)/)[args.match(/list=(.*)/).length - 1], 50, function(data) {
+                            message.reply(" added to queue, playlist: **" + data.snippet.title + "**");
                         });
                     });
                 }
             } else {
                 isPlaying = true;
                 if (args.toLowerCase().indexOf("list=") === -1) {
-                    console.log(args.toLowerCase().indexOf("list=") === -1);
+                    // console.log(args.toLowerCase().indexOf("list=") === -1);
                     youtube.getID(args, function(id) {
                         queue.push(id);
                         playMusic(id, message, false);
@@ -115,13 +114,13 @@ client.on('message', function(message) {
                         });
                     });
                 } else {
-                    youtube.getPlayListSongs(message.match(/list=(.*)/)[message.match(/list=(.*)/).length - 1], 50, function(arr) {
+                    youtube.getPlayListSongs(args.match(/list=(.*)/)[args.match(/list=(.*)/).length - 1], 50, function(arr) {
                         arr.forEach(function(e) {
                             add_to_queue(e.snippet.resourceId.videoId);
                             queueNames.push(e.snippet.title);
                         });
                         playMusic(queue[0], message, false);
-                        youtube.getPlayListMetaData(message.match(/list=(.*)/)[message.match(/list=(.*)/).length - 1], 50, function(data) {
+                        youtube.getPlayListMetaData(args.match(/list=(.*)/)[args.match(/list=(.*)/).length - 1], 50, function(data) {
                             message.reply(" now playing playlist: **" + data.snippet.title + "**");
                         });
                     });
@@ -175,7 +174,6 @@ client.on('ready', function() {
 
 function skip_song() {
     dispatcher.end();
-    queueNames.shift();
 }
 
 function playMusic(id, message, backQueueUsed) {
@@ -198,9 +196,11 @@ function playMusic(id, message, backQueueUsed) {
                         currentBackQueue++;
                     } else {
                         queue.shift();
+                        queueNames.shift();
                     }
                     if (queue.length === 0) {
                         queue = [];
+                        queueNames = [];
                         if (backQueue.length === currentBackQueue) {
                             currentBackQueue = 0;
                         }
@@ -221,7 +221,7 @@ function shuffle(array) {
     var currentIndex = array.length,
         temporaryValue, randomIndex;
 
-    while (0 !== currentIndex) {
+    while (1 !== currentIndex) {
 
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
