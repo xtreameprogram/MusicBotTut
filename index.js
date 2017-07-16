@@ -42,7 +42,7 @@ client.on('message', function(message) {
                     add_to_queue(id, message);
                     fetchVideoInfo(id, function(err, videoInfo) {
                         if (err) throw new Error(err);
-                        message.reply(" added to queue: **" + videoInfo.title + "**");
+                        message.reply(` added to queue: **${videoInfo.title}**`);
                         guilds[message.guild.id].queueNames.push(videoInfo.title);
                     });
                 });
@@ -54,12 +54,12 @@ client.on('message', function(message) {
                     fetchVideoInfo(id, function(err, videoInfo) {
                         if (err) throw new Error(err);
                         guilds[message.guild.id].queueNames.push(videoInfo.title);
-                        message.reply(" now playing: **" + videoInfo.title + "**");
+                        message.reply(`now playing: **${videoInfo.title}**`);
                     });
                 });
             }
         } else {
-            message.reply(" you need to be in a voice channel!");
+            message.reply("you need to be in a voice channel!");
         }
     } else if (mess.startsWith(prefix + "skip")) {
         if (guilds[message.guild.id].skippers.indexOf(message.author.id) === -1) {
