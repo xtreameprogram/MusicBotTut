@@ -19,11 +19,11 @@ var guilds = {};
 client.login(discord_token);
 
 client.on('message', function(message) {
-	if (msg.author.bot) return undefined;
-	if (!msg.content.startsWith(PREFIX)) return undefined;
+	if (message.author.bot) return;
+	if (!message.content.startsWith(prefix)) return;
 
-	const args = msg.content.split(' ');
-    let command = msg.content.toLowerCase().split(" ")[0];
+	const args = message.content.split(' ').join(" ");
+    	let command = message.content.toLowerCase().split(" ")[0];
 	command = command.slice(prefix.length)
 
     if (!guilds[message.guild.id]) {
