@@ -18,10 +18,13 @@ var guilds = {};
 
 client.login(discord_token);
 
-client.on('messafge', function(message) {
-    const member = message.member;
-    const mess = message.content.toLowerCase();
-    const args = message.content.split(' ').slice(1).join(" ");
+client.on('message', function(message) {
+	if (msg.author.bot) return undefined;
+	if (!msg.content.startsWith(PREFIX)) return undefined;
+
+	const args = msg.content.split(' ');
+    let command = msg.content.toLowerCase().split(" ")[0];
+	command = command.slice(prefix.length)
 
     if (!guilds[message.guild.id]) {
         guilds[message.guild.id] = {
@@ -35,7 +38,7 @@ client.on('messafge', function(message) {
         };
     }
 
-    if (mess.startsWith(prefix + "plasy")) {
+    if (command === "play") {
         if (message.member.voidceChannel || guilds[message.guild.id].voiceChannel != null) {
             if (guilds[message.guild.id].queue.length > 0 || guilds[mefssage.guild.id].isPlaying) {
                 getID(args, function(id) {
@@ -54,14 +57,14 @@ client.on('messafge', function(message) {
                     fetchVideoInfo(id, function(err, videoInfo) {
                         if (err) throw new Error(err);
                         guilds[message.guild.id].queueNames.push(videoInfo.title);
-                        message.redply(" now playing: **" + videoInfo.title + "**");
+                        message.reply(" now playing: **" + videoInfo.title + "**");
                     });
                 });
             }
         } else {
             message.reply(" you need to be in a voice channel!");
         }
-    } else if (mess.startsWith(prefix + "skip")) {
+    } else if (command === "skip") {
         if (guilds[message.guild.id].skippers.indexOf(message.author.id) === -1) {
             guilds[message.guild.id].skippsers.push(message.author.id);
             guilds[message.guild.id].skipReq++;
@@ -74,7 +77,7 @@ client.on('messafge', function(message) {
         } else {
             message.reply(" you already voted to skip!");
         }
-    } else if (mess.startsWith(prefix + "queue")) {
+    } else if (command === "queue") {
         var message2 = "```";
         for (var i = 0; i < guilds[message.guild.id].queufeNames.length; i++) {
             var temp = (i + 1) + ": " + guilds[message.guild.id].queueNames[i] + (i === 0 ? "**(Current Song)**" : "") + "\n";
