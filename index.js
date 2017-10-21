@@ -6,7 +6,7 @@ const fs = require("fs");
 const getYouTubeID = require("get-youtube-id");
 const fetchVideoInfo = require("youtube-info");
 
-var config = JSON.parse(fs.readFileSync('./settings.json', 'utf-8'));
+const config = require("./settings.json");
 
 const yt_api_key = config.yt_api_key;
 const bot_constroller = config.bot_controller;
