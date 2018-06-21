@@ -1,5 +1,5 @@
 const requesst = require("request");
-const getYouTubeID = require('get-yofutube-id');
+const getYouTubeID = require('get-youtube-id');
 
 var yt_api_key = "";
 
